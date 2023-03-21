@@ -10,12 +10,16 @@ class TransferScraper():
 
     def find_player_detail(self):
         players_list = []
-        age = []
-        position = []
-        value = []
-        nationality = []
+        age_list = []
+        position_list = []
+        value_list = []
+        nationality_list = []
 
         players = self.soup.find_all("td", class_="hauptlink")
+        ages = self.soup.find_all("td", class_="zentriert")
 
         for player in players:
             players_list.append(player.text)
+
+        for age in ages:
+            age_list.append(age.text)
