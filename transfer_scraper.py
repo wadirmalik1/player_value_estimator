@@ -17,6 +17,7 @@ class TransferScraper():
 
         players = self.soup.find_all("td", class_="hauptlink")
         ages = self.soup.find_all("td", class_="zentriert")
+        nationality = self.soup.find_all("td", class_="zentriert")
 
         for player in players:
             players_list.append(player.text)
@@ -32,4 +33,16 @@ class TransferScraper():
         new_age_list = []
         for i in range(2, len(age_list), 4):
             new_age_list.append(age_list[i])
+
+        for nation in nationality:
+            flags = nation.find_all('img')  
+            if flags:  
+                first_flag = flags[0]  
+                first_nationality = first_flag['title']
+                nationality_list.append(first_nationality)
+
+        i = 1
+        while i < len(nationality_list):
+            del nationality_list[i]
+            i += 1       
         
