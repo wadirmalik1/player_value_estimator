@@ -11,13 +11,13 @@ class TransferScraper():
     def find_player_detail(self):
         players_list = []
         age_list = []
-        position_list = []
         value_list = []
         nationality_list = []
 
         players = self.soup.find_all("td", class_="hauptlink")
         ages = self.soup.find_all("td", class_="zentriert")
         nationality = self.soup.find_all("td", class_="zentriert")
+        values = self.soup.find_all("td", class_="rechts hauptlink")
 
         for player in players:
             players_list.append(player.text)
@@ -44,5 +44,8 @@ class TransferScraper():
         i = 1
         while i < len(nationality_list):
             del nationality_list[i]
-            i += 1       
+            i += 1   
+
+        for value in values:
+            value_list.append(value.text)    
         
