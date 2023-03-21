@@ -21,5 +21,15 @@ class TransferScraper():
         for player in players:
             players_list.append(player.text)
 
+        i = 1
+        while i < len(players_list):
+            del players_list[i]
+            i += 1
+
         for age in ages:
             age_list.append(age.text)
+
+        new_age_list = []
+        for i in range(2, len(age_list), 4):
+            new_age_list.append(age_list[i])
+        
