@@ -109,6 +109,7 @@ class TransferScraper:
         Returns:
         A dataframe containing all the information from the scraper
         """
+        
         df = pd.DataFrame(players, columns=['Rank', 'null', 'null1', 'Player', 'Position', 'null3', 'Age', 'null4', 'Value'])
         df['Nationality'] = nationalities
         df['Club'] = clubs
