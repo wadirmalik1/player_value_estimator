@@ -60,3 +60,5 @@ class TransfermarktScraper:
                 print("Table with class 'items' not found on the page.")
 
         list_player_url = list(list_player_url)
+
+        return list_player_url
