@@ -5,8 +5,7 @@ import pandas as pd
 class TransfermarktScraper:
 
     USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36'
-    BASE_URL = "https://www.transfermarkt.co.uk/"
-    LEAGUE_URL_TEMPLATE = BASE_URL + "jumplist/startseite/wettbewerb/{}"
+    URL_TEMPLATE = "https://www.transfermarkt.co.uk/championship/startseite/wettbewerb/{league}/plus/?saison_id={season}"
     
     # Define league codes and seasons as class attributes
     LEAGUE_CODES = ["AN1L", "AR1N", "AUS1", "A1", "BGD1", "BE1", "BO1A", "BRA1", "CDN1", "CLPD", "CSL", "COLP", "COL1", "CRPD", "PDV1", 
@@ -33,22 +32,23 @@ class TransfermarktScraper:
     def scrape_team_links(self):
         team_urls = []
 
-        for league_code in self.LEAGUE_CODES:
-            url = self.LEAGUE_URL_TEMPLATE.format(league_code)
-            soup = self.scrape_webpage(url)
+        for season in self.SEASONS:
+            for league in self.LEAGUE_CODES:
+                url = self.URL_TEMPLATE.format(league=league, season=season)
+                soup = self.scrape_webpage(url)
 
-            if soup:
-                table = soup.find("table", class_='items')
-                if table:
-                    tbody = table.find("tbody")
-                    rows = tbody.find_all("tr")
-                    for row in rows:
-                        team_link = row.select_one('a')['href']
-                        team_urls.append(self.BASE_URL + team_link)
+                if soup:
+                    table = soup.find("table", class_='items')
+                    if table:
+                        tbody = table.find("tbody")
+                        rows = tbody.find_all("tr")
+                        for row in rows:
+                            team_link = row.select_one('a')['href']
+                            team_urls.append(self.BASE_URL + team_link)
+                    else:
+                        print(f"Table with class 'items' not found on {url}")
                 else:
-                    print(f"Table with class 'items' not found on {url}")
-            else:
-                print(f"Error fetching {url}")
+                    print(f"Error fetching {url}")
 
         return team_urls
 
